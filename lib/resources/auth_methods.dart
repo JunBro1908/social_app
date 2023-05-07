@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_app/models/user.dart' as model;
 import 'package:social_app/resources/storage_methods.dart';
 
 class AuthMethods {
@@ -32,16 +33,28 @@ class AuthMethods {
             .uploadImageToStorage('profilePics', file, false);
 
         // add user to database : collection > doc > set data (overwride)
+        model.User user = model.User(
+            email: email,
+            bio: bio,
+            followers: [],
+            following: [],
+            photoUrl: photoUrl,
+            uid: cred.user!.uid,
+            username: username);
+
         // set firestore collection user id as uid o/w add can be alternative option(random collection user id)
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'followers': [],
-          'following': [],
-          'photoUrl': photoUrl,
-        });
+        await _firestore.collection('users').doc(cred.user!.uid).set(
+              user.toJson(),
+              // {
+              //   'username': username,
+              //   'uid': cred.user!.uid,
+              //   'email': email,
+              //   'bio': bio,
+              //   'followers': [],
+              //   'following': [],
+              //   'photoUrl': photoUrl,
+              // },
+            );
 
         res = 'success';
       }
