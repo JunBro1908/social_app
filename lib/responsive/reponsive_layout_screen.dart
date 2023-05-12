@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/providers/user_proiver.dart';
-import 'package:social_app/utils/dimensions.dart';
+import '../utils/global_variable.dart';
 
 // change the widget according to screen size by using constraint
 class ResponsiveLayoutScreen extends StatefulWidget {
